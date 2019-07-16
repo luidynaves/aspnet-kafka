@@ -21,9 +21,9 @@ namespace aspnet_kafka.MessageBroker
         public async Task Publish<T>(string key, T message)
         {
             string serializedMessage = JsonConvert.SerializeObject(message);
-
+            
             DeliveryResult<string, string> dr = 
-                await _producer.ProduceAsync(_topicName, new Message<string, string>
+            await _producer.ProduceAsync(_topicName, new Message<string, string>
                 {
                     Key = key,
                     Value = serializedMessage

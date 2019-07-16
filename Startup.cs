@@ -29,6 +29,14 @@ namespace aspnet_kafka
         {
             var producerConfig = new ProducerConfig();
             Configuration.Bind("producer", producerConfig);
+            producerConfig.Acks = Acks.All;
+            producerConfig.LingerMs = 3;
+            // producerConfig.EnableIdempotence = true;
+            producerConfig.MessageSendMaxRetries = 10000000;
+            producerConfig.CompressionType = CompressionType.Snappy;
+            producerConfig.SecurityProtocol = SecurityProtocol.SaslSsl;
+            producerConfig.SaslMechanism = SaslMechanism.Plain;
+            producerConfig.SaslUsername = "$ConnectionString";            
 
             services.AddSingleton<TopicConfig>(p => {
                 return new TopicConfig(producerConfig, "first_topic");
