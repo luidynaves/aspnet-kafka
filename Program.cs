@@ -18,11 +18,7 @@ namespace aspnet_kafka
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseKestrel(options =>
-                {
-                    options.AddServerHeader = false;
-                })
+            WebHost.CreateDefaultBuilder(args)                
                 .UseStartup<Startup>();
     }
 }

@@ -34,10 +34,10 @@ namespace aspnet_kafka
             producerConfig.BootstrapServers = boostrapServer.Value;
             producerConfig.SaslPassword = saslpassword.Value;
             producerConfig.Acks = Acks.All;
-            producerConfig.LingerMs = 3;
+            //producerConfig.LingerMs = 3;
             // producerConfig.EnableIdempotence = true;
             //producerConfig.MessageSendMaxRetries = 10000000;
-            producerConfig.CompressionType = CompressionType.Snappy;
+            //producerConfig.CompressionType = CompressionType.Snappy;
             producerConfig.RequestTimeoutMs = 60000;
             producerConfig.SecurityProtocol = SecurityProtocol.SaslSsl;
             producerConfig.SaslMechanism = SaslMechanism.Plain;
@@ -53,6 +53,12 @@ namespace aspnet_kafka
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -65,6 +71,7 @@ namespace aspnet_kafka
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseWelcomePage("/");
         }
     }
 }
