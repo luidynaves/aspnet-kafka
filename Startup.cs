@@ -32,8 +32,9 @@ namespace aspnet_kafka
             producerConfig.Acks = Acks.All;
             producerConfig.LingerMs = 3;
             // producerConfig.EnableIdempotence = true;
-            producerConfig.MessageSendMaxRetries = 10000000;
+            //producerConfig.MessageSendMaxRetries = 10000000;
             producerConfig.CompressionType = CompressionType.Snappy;
+            producerConfig.RequestTimeoutMs = 60000;
             producerConfig.SecurityProtocol = SecurityProtocol.SaslSsl;
             producerConfig.SaslMechanism = SaslMechanism.Plain;
             producerConfig.SaslUsername = "$ConnectionString";            
