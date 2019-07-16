@@ -27,8 +27,12 @@ namespace aspnet_kafka
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var boostrapServer = Configuration.GetSection("producer:bootstrapservers");
+            var saslpassword = Configuration.GetSection("producer:saslpassword");
             var producerConfig = new ProducerConfig();
-            Configuration.Bind("producer", producerConfig);
+            //Configuration.Bind("producer", producerConfig);
+            producerConfig.BootstrapServers = boostrapServer.Value;
+            producerConfig.SaslPassword = saslpassword.Value;
             producerConfig.Acks = Acks.All;
             producerConfig.LingerMs = 3;
             // producerConfig.EnableIdempotence = true;
